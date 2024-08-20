@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"mygo/base"
+	"mygo/sliceinfo"
 )
 
 func descriptMain() {
@@ -12,11 +13,22 @@ func descriptMain() {
 
 func main() {
 	descriptMain()
-	//sliceinfo.TestSlice()
+	sliceinfo.TestSlice()
 	//sliceinfo.TestRefType()
 	//
 	//errorinfo.TestErrorInfo()
 
 	//channel.ReadData()
 	base.TestVar()
+	base.NamingConventions()
+
+	var animal base.Animal
+	animal = base.Cat{}
+	base.MakeSound(animal)
+	animal = base.Dog{}
+	base.MakeSound(animal)
+
+	base.AssertTest()
+
+	base.TestEmptyInterface()
 }

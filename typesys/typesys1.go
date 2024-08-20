@@ -14,18 +14,19 @@ type User struct {
 	SliceInfo  []string
 }
 
-// PrintUser 值传递方式 修改副本的值 不会影响原始对象的属性值
-func (u User) PrintUser() {
+// ModifyUserWithOutReturn 值传递方式 修改副本的值 不会影响原始对象的属性值
+func (u User) ModifyUserWithOutReturn() {
 	u.Name = "modify"
 }
 
-// PrintUserByPoint 指针方式传递 指针与原始对象是指向同一个对象的
-func (u User) PrintUserByPoint() {
+// ModifyUserNameWithReturn 指针方式传递 指针与原始对象是指向同一个对象的
+func (u User) ModifyUserNameWithReturn() (u1 User) {
 	u.Name = "modify1"
+	return u
 }
 
-// TestSlice 修改对象切片的取值原始对象的取值保持不变 说明是完全的值传递 切片头部值 底层的数组是一致的
-func (u User) TestSlice() []string {
+// EnLargeSlice 修改对象切片的取值原始对象的取值保持不变 说明是完全的值传递 切片头部值 底层的数组是一致的
+func (u User) EnLargeSlice() []string {
 	// 会返回一个新的切片 未扩充容量底层数组是一致的 如果扩充容量会生成新的底层数据 则返回的新切片指向的是新的底层数据 与原始切片底层数据不一样
 	u.SliceInfo = append(u.SliceInfo, "e1")
 	u.SliceInfo[0] = "e0"

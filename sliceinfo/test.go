@@ -2,26 +2,31 @@ package sliceinfo
 
 import (
 	"fmt"
+	"mygo/base"
 	"mygo/typesys"
 )
 
 func TestSlice() {
 	var bill typesys.User
-	bill.PrintUser()
+	bill.ModifyUserWithOutReturn()
 	fmt.Printf("user name= %s,email= %s\n", bill.Name, bill.Email)
 	bill1 := typesys.User{
 		Name:      "zlg",
 		Email:     "test@qq.com",
-		SliceInfo: make([]string, 3),
+		SliceInfo: make([]string, 3, 5), // 指定切片类型 切片长度 容量
 	}
-	bill1.PrintUserByPoint()
+	newUser := bill1.ModifyUserNameWithReturn()
+	fmt.Printf("ap:%p, fp:%p, bill1:%v, newUser:%v\n", &bill1, &newUser, bill1, newUser)
+	// 值引用时会创建新的切片 但是两个切片引用的底层数组是一个
+	fmt.Printf("oldSlice:%p, newSlice:%p, oldSliceData:%p, newSliceData:%p\n", &bill1.SliceInfo, &newUser.SliceInfo,
+		base.GetStrSliceAddr(bill1.SliceInfo), base.GetStrSliceAddr(newUser.SliceInfo))
 
 	// 这个方法里面 会对切片扩容 底层数组发生变更 旧的底层数组依旧存在 直到没有被引用 go的垃圾回收机制会回收
-	sliceInfo := bill1.TestSlice()
+	sliceInfo := bill1.EnLargeSlice()
 
 	// 指向的地址发生变更
 	fmt.Printf("new addr is %p, old addr is %p\n", &sliceInfo[0], &bill1.SliceInfo[0])
-	fmt.Printf("%s value %d len\n", sliceInfo, len(sliceInfo))
+	fmt.Printf("value:%s  len: %d  capacity:%d\n", sliceInfo, len(sliceInfo), cap(sliceInfo))
 	fmt.Printf("user name= %s,email= %s,sliceinfo=%s\n", bill1.Name, bill1.Email, bill1.SliceInfo)
 }
 

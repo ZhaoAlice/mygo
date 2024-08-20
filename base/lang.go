@@ -5,6 +5,12 @@ import (
 	"unsafe"
 )
 
+// 结构体的初始化
+type person struct {
+	name string
+	age  int
+}
+
 func TestVar() {
 	// 通过var关键字进行声明并初始化 也可以不声明类型 go会根据值进行类型推断
 	var a int = 2
@@ -42,11 +48,6 @@ func TestVar() {
 	// 切片扩容后 底层数组会发生变化 此时数组指向的是旧的数组地址
 	printArrAndSlice(&arr, &sliceFromArr)
 
-	// 结构体的初始化
-	type person struct {
-		name string
-		age  int
-	}
 	p1 := person{name: "111", age: 5}
 	fmt.Println(p1, &p1)
 
@@ -70,30 +71,62 @@ func TestVar() {
 	// 结构体 接口 方法
 }
 
-// getSliceAddr 获取slice底层数组的地址
-func getSliceAddr(slice []int) *int {
+// Func4Person 方法定义
+func (u person) Func4Person() {
+
+}
+
+// Func4PersonPointer Func4Person 方法定义
+//func (user *person) Func4PersonPointer() {
+//
+//}
+
+// GetSliceAddr getSliceAddr 获取slice底层数组的地址
+func GetSliceAddr(slice []int) *int {
+	return unsafe.SliceData(slice)
+}
+
+func GetStrSliceAddr(slice []string) *string {
 	return unsafe.SliceData(slice)
 }
 
 // printArrAndSlice 打印数组和切片的地址 进行对比
 func printArrAndSlice(arr *[3]int, sliceFromArr *[]int) {
-	fmt.Printf("arr %v, arrAddr: %p, slice:%v, sliceAddr:%p\n", *arr, arr, *sliceFromArr, getSliceAddr(*sliceFromArr))
+	fmt.Printf("arr %v, arrAddr: %p, slice:%v, sliceAddr:%p\n", *arr, arr, *sliceFromArr, GetSliceAddr(*sliceFromArr))
 }
 
+// Reader 定义接口
 type Reader interface {
+	ReadBook()
+
+	ReadNewBook()
 }
+
+// ReadBook 任何实现了接口中(所有方法)的类型都被视为实现了该接口
+func (u person) ReadBook() {
+
+}
+
+func (u person) ReadNewBook() {
+
+}
+
+// CustomInt 别名类型
+type CustomInt int
 
 // NamingConventions 命名约束说明
 func NamingConventions() {
 	// 大小写规则
-	fmt.Println("如果标识符号首字母大写，则未public可导出，其他包可以引用，如果首字母为小写，则为private只能在该包中引用")
+	fmt.Println("如果标识符首字母大写，则变量为public可导出，其他包可以引用，如果首字母为小写，则为private只能在该包中引用")
 	// 命名风格
-	fmt.Println("简洁性、描述性、驼峰命名法，不使用下划线")
+	fmt.Println("标识符的简洁性、描述性、驼峰命名法，不使用下划线")
 	// 特殊命名
 	fmt.Println("布尔类型：通常使用is,has,can等前缀标识状态\n" +
 		"接口命名：以er结尾？，以表示接口的行为")
 	// 包命名
-	fmt.Println("小写字符，避免使用下划线以及大写字母，简短且明确")
+	fmt.Println("包命名：小写字符，避免使用下划线以及大写字母，简短且明确")
 	// 其他
-	fmt.Println("命名时注意作用域，避免出现命名冲突")
+	fmt.Println("整体：命名时注意作用域，避免出现命名冲突")
+	// 方法
+	fmt.Println("方法：方法是与特性类型（通常是结构体）关联的函数，可以在类型上定义行为")
 }
