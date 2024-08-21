@@ -93,3 +93,7 @@ func TestEmptyInterface() {
 	printType(true)
 	printType(Dog{})
 }
+
+type Test interface {
+	TestAll()
+}
