@@ -32,5 +32,8 @@ func main() {
 	//base.TestEmptyInterface()
 	//errorinfo.TestError()
 	//base.TestAll()
-	base.TestAll1()
+	//base.TestAll1()
+	//base.GrapData()
+
+	base.Write2CsvFile()
 }
